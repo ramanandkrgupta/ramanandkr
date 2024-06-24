@@ -9,7 +9,7 @@ function sendMail() {
         message,
     };
 
-    fetch("http://emailjs-sage.vercel.app/send-email", {
+    fetch("https://emailjs-sage.vercel.app/send-email", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
