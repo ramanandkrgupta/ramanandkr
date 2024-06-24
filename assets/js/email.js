@@ -1,33 +1,34 @@
 function sendMail() {
-    let params = {
-      
-        template_params: {
-            form_name: document.getElementById("name").value,
-            form_email: document.getElementById("email").value,
-            message: document.getElementById("message").value
-        }
+    const form_name = document.getElementById("name").value;
+    const form_email = document.getElementById("email").value;
+    const message = document.getElementById("message").value;
+
+    const params = {
+        form_name,
+        form_email,
+        message,
     };
 
     fetch("http://emailjs-sage.vercel.app/send-email", {
         method: "POST",
         headers: {
-            "Content-Type": "application/json",
-            // Add any additional headers as needed
+            "Content-Type": "application/json"
         },
         body: JSON.stringify(params)
     })
     .then(response => {
         if (!response.ok) {
-            throw new Error("Network response was not ok");
+            throw new Error("Network response was not ok: " + response.statusText);
         }
         return response.json();
     })
     .then(data => {
         console.log("Email sent:", data);
-        // Optionally show a success message or redirect after successful submission
+        alert("Email sent successfully!");
+        // Optionally show a success message or clear the form
     })
     .catch(error => {
         console.error("Error sending email:", error);
-        // Handle errors, display an error message to the user, etc.
+        alert("An error occurred while sending the email. Please try again later.");
     });
 }
