@@ -18,17 +18,33 @@ function sendMail() {
     })
     .then(response => {
         if (!response.ok) {
-            throw new Error("Network response was not ok: " + response.statusText);
+            Swal.fire({
+                        title: 'Error!',
+                        text: 'Failed to send email. Please try again later.',
+                        icon: 'error',
+                        confirmButtonText: 'OK'
+                    });
         }
         return response.json();
     })
     .then(data => {
         console.log("Email sent:", data);
-        alert("Email sent successfully!");
+        Swal.fire({
+                        title: 'Email Sent!',
+                        text: 'Your email has been sent successfully.',
+                        icon: 'success',
+                        confirmButtonText: 'OK'
+                    });
         // Optionally show a success message or clear the form
     })
     .catch(error => {
         console.error("Error sending email:", error);
-        alert("An error occurred while sending the email. Please try again later.");
+        Swal.fire({
+                    title: 'Error!',
+                    text: 'An error occurred while sending email. Please try again later.',
+                    icon: 'error',
+                    confirmButtonText: 'OK'
+                });
+            });
     });
 }
