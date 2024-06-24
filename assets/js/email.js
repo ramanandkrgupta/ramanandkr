@@ -1,4 +1,6 @@
-function sendMail() {
+document.getElementById('contactForm').addEventListener('submit', function(event) {
+    event.preventDefault(); // Prevent the default form submission
+
     const form_name = document.getElementById("name").value;
     const form_email = document.getElementById("email").value;
     const message = document.getElementById("message").value;
@@ -9,7 +11,7 @@ function sendMail() {
         message,
     };
 
-    fetch("https://emailjs-sage.vercel.app/send-email", {
+    fetch("http://emailjs-sage.vercel.app/send-email", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -18,33 +20,26 @@ function sendMail() {
     })
     .then(response => {
         if (!response.ok) {
-            Swal.fire({
-                        title: 'Error!',
-                        text: 'Failed to send email. Please try again later.',
-                        icon: 'error',
-                        confirmButtonText: 'OK'
-                    });
+            throw new Error("Network response was not ok: " + response.statusText);
         }
         return response.json();
     })
     .then(data => {
         console.log("Email sent:", data);
         Swal.fire({
-                        title: 'Email Sent!',
-                        text: 'Your email has been sent successfully.',
-                        icon: 'success',
-                        confirmButtonText: 'OK'
-                    });
-        // Optionally show a success message or clear the form
+            title: 'Success!',
+            text: 'Email sent successfully!',
+            icon: 'success',
+            confirmButtonText: 'OK'
+        });
     })
     .catch(error => {
         console.error("Error sending email:", error);
         Swal.fire({
-                    title: 'Error!',
-                    text: 'An error occurred while sending email. Please try again later.',
-                    icon: 'error',
-                    confirmButtonText: 'OK'
-                });
-            });
+            title: 'Error!',
+            text: 'An error occurred while sending the email. Please try again later.',
+            icon: 'error',
+            confirmButtonText: 'OK'
+        });
     });
-}
+});
